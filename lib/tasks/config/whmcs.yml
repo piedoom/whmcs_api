@@ -1,0 +1,15 @@
+default: &default
+  api_user: xxxxxxxxx
+  api_password: xxxxxxxxx
+  api_url: https://your.domain.com/client/api
+  http_auth_user: xxx
+  http_auth_password: xxx
+
+production:
+  <<: *default
+
+development:
+  <<: *default
+
+test:
+  <<: *default
