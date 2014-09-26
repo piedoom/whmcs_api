@@ -1,6 +1,6 @@
 require 'rails'
 module Whmcs
-  class Railtie < Rails::Railtie
+  class Railtie < ::Rails::Railtie
     railtie_name :whmcs
 
     rake_tasks do

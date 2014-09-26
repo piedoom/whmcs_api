@@ -1,8 +1,10 @@
+require 'whmcs/railtie'
+require 'whmcs/configuration'
+require 'curb'
+require 'php_serialize'
+
 module Whmcs
-  require 'whmcs/railtie' if defined?(Rails)
-  require 'whmcs/configuration'
   autoload :Api, 'whmcs/api'
-  require 'curb'
 
   # Gives access to the current configuration
   def self.config

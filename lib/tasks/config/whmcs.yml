@@ -1,7 +1,7 @@
 default: &default
   api_user: xxxxxxxxx
   api_password: xxxxxxxxx
-  api_url: https://your.domain.com/client/api
+  api_url: https://your.domain.com/includes/api.php
   http_auth_user: xxx
   http_auth_password: xxx
 
