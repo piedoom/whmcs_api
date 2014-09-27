@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    whmcs_api (0.0.1)
+    whmcs_api (1.0.0)
       curb
       php-serialize
       rails (>= 3.2.0)
