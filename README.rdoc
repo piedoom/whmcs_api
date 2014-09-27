@@ -1,3 +1,93 @@
 = Whmcs API
 
-This project is not ready for use yet.
+Ruby library for the WHMCS API ({API Reference}[http://docs.whmcs.com/API]).
+
+== Instalation
+
+WHMCS API library requires Ruby 1.9.3 or later. To install, add this line to your
++Gemfile+ and run <tt>bundle install</tt>:
+
+  gem 'whmcs_api', require: 'whmcs'
+
+You need use <tt>require: 'whmcs'</tt> parameter to automatically include the library. It's need, becouse
+the gem and the library have different names.
+
+
+== Configuration
+
+By default module uses configuration from <tt>config/whmcs.yml</tt> file. To generate it run:
+
+  rake whmcs:install
+
+This command generates file <tt>config/whmcs.yml</tt> which contains configuration for each environment
+
+  default: &default
+    api_user: xxxxxxxxx
+    api_password: xxxxxxxxx
+    api_url: https://your.domain.com/includes/api.php
+    http_auth_user: xxx
+    http_auth_password: xxx
+
+  production:
+    <<: *default
+
+  development:
+    <<: *default
+
+  test:
+    <<: *default
+
+Fill in +api_user+, +api_password+ and +api_url+ for each environment or use +default+ template. If your
+WHMCS installation uses Basic HTTP Auth, use +http_auth_user+ and +http_auth_password+ options.
+
+You can configure module at runtime if you need:
+
+  Whmcs.configure do |config|
+    config.api_user = 'xxxxx'
+    config.api_password = 'xxxxxx'
+    config.api_url = 'https://your.domain.com/includes/api.php'
+  end
+
+or set each configuration option separately:
+
+  Whmcs.config.api_user = 'xxxxxx'
+
+== Usage
+
+To use library you need to create an instance of Whmcs::Api class and call it methods:
+
+  @api = Whmcs::Api.new
+  @api.execute_command(:getclientsdetails, clientid: 2803)
+
+Last line returns a result hash:
+  {:result=>"success", 
+    :userid=>"2803", 
+    :id=>"2803", 
+    :firstname=>"Bogdan", 
+    :lastname=>"Guban", 
+    :fullname=>"Bogdan Guban"
+    ...
+
+or +false+ if an error was occurred. All error messages stores in an +errors+ method.
++errors+ method is a functionality of <tt>ActiveModel::Validations</tt> module.
+
+  @api.errors.messages
+
+returns:
+
+  {:base=>["Client Not Found"]}
+
+If you prefer to work with exceptions you can use functions with <tt>!</tt> suffix. For example:
+
+  begin
+    @api = Whmcs::Api.new
+    @api.execute_command!(:getclientsdetails, clientid: 10000)
+  rescue Exception => e
+    puts e.message  # => Client Not Found
+  end
+
+
+====== TODO
+
+- Write tests
+- Write documentation
