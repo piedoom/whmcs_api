@@ -34,34 +34,22 @@ module Whmcs
         curl.http_post(request_options.to_query)
         curl.perform
 
-        puts curl.body_str
-
         # handle response
-        response = JSON.parse(curl.body_str, symbolize_names: true)
+        result = JSON.parse(curl.body_str, symbolize_names: true)
       rescue Exception => e
         # If error occurs, it adds to instance errors
         errors.add(:base, e.message)
         raise e
       end
 
-      return response
+      # check if error occurred
+      if result[:result] == 'error'
+        errors.add(:base, result[:message])
+        raise StandardError, result[:message]
+      end
 
-      # # Checks if a command returns a Whmcs error. If error occurs,
-      # # it adds to errors and excepions reises.
-      # if response[:errorresponse].present?
-      #   errors.add(:base, response[:errorresponse][:errortext])
-      #   raise StandardError, response[:errorresponse][:errortext]
-      # end
-      #
-      # result = response["#{command}response".downcase.to_sym]
-      #
-      # if result[:errortext].present?
-      #   errors.add(:base, result[:errortext])
-      #   raise StandardError, result[:errortext]
-      # end
-      #
-      # # If all pass success, returns a result hash
-      # result
+      # If all pass success, returns a result hash
+      result
     end
 
     # Method provides the same functionality as #execute_command! except
