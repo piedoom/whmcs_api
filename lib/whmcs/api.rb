@@ -32,7 +32,9 @@ module Whmcs
           curl.password = Whmcs.config.http_auth_password
         end
         curl.http_post(request_options.to_query)
-        curl.perform
+        
+        #should fix errors
+        #curl.perform
 
         # handle response
         result = JSON.parse(curl.body_str, symbolize_names: true)
