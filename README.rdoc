@@ -1,3 +1,7 @@
+=reason for fork
+
+the original project is getting dated, and one of the functions always returns false (adduser).  I fould this is because `.post` and `.perform` were redundant, so I removed `.perform`.
+
 = Whmcs API
 
 Ruby library for the WHMCS API ({API Reference}[http://docs.whmcs.com/API]).
